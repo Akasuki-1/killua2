@@ -74,19 +74,14 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-`Hellow` [🤗](https://telegra.ph/file/91b872c2127ffaf244571.jpg) `My name is` *Killua Zolydck*
+`Hellow` [🤗](https://telegra.ph/file/f720e8258baaa7aa043eb.jpg) `My name is` *Killua Zolydck*
 `I'm here to help you manage your groups! Hit` *📚Commands* `button below to find out more about how to use me to my full potential.` 
 """
 
 buttons = [
     [
         InlineKeyboardButton(
-            text="➕️ ADD MASHA TO YOUR GROUP ➕️", url="t.me/Killua_Xbot?startgroup=true"),
-    ],
-    [
-        InlineKeyboardButton(text="🚨ADMINS", callback_data="adminmenu_"),
-        InlineKeyboardButton(text="👒USERS", callback_data="usermenu_"),
-        InlineKeyboardButton(text="🛡DEVS", callback_data="devmenu_"),
+            text="➕️ ADD KILLUA TO YOUR GROUP ➕️", url="t.me/Killua_Xbot?startgroup=true"),
     ],
     [
         InlineKeyboardButton(text="ℹ️ ABOUT", callback_data="masha_"),
@@ -96,8 +91,7 @@ buttons = [
         InlineKeyboardButton(
             text="💾 SOURCE", callback_data="source_"),
         InlineKeyboardButton(
-            text="👥 SUPPORT", url="https://t.me/wastebots"
-        ),
+            text="👥 SUPPORT", callback_data="adminmenu_")
     ],
 ]
 
@@ -107,7 +101,8 @@ HELP_STRINGS = """
 `Click on the buttons below to get documentation about specific modules..`"""
 
 
-KILLUA_IMG = "https://telegra.ph/file/91b872c2127ffaf244571.jpg"
+KILLUA_GIF = "https://telegra.ph/file/91b872c2127ffaf244571.jpg"
+KILLUA2_IMG = "https://telegra.ph/file/f720e8258baaa7aa043eb.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
  You can support the project via [Paypal](ko-fi.com/sawada) or by contacting @Sawada \
@@ -215,7 +210,7 @@ def start(update: Update, context: CallbackContext):
 
         else:
             update.effective_message.reply_photo(
-                KILLUA_IMG,
+                KILLUA_GIF,
                 PM_START_TEXT,
                 reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
@@ -318,7 +313,7 @@ def help_button(update, context):
 
         elif prev_match:
             curr_page = int(prev_match.group(1))
-            query.message.edit_text(
+            query.message.reply_text(
                 text=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
@@ -328,7 +323,7 @@ def help_button(update, context):
 
         elif next_match:
             next_page = int(next_match.group(1))
-            query.message.edit_text(
+            query.message.reply_text(
                 text=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
@@ -337,7 +332,7 @@ def help_button(update, context):
             )
 
         elif back_match:
-            query.message.edit_text(
+            query.message.reply_text(
                 text=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
@@ -356,25 +351,25 @@ def help_button(update, context):
 @run_async
 def Masha_about_callback(update: Update, context: CallbackContext):
     query = update.callback_query
+    if "close_" in query.data:
+        query.message.delete()
     if query.data == "masha_":
         query.message.reply_text(
-            text=""" ℹ️ I'm *MASHA*, a powerful group management bot built to help you manage your group easily.
+            text=""" ℹ️ I'm *KILLUA*, a powerful group management bot built to help you manage your group easily.
                  \n❍ I can restrict users.
                  \n❍ I can greet users with customizable welcome messages and even set a group's rules.
                  \n❍ I have an advanced anti-flood system.
                  \n❍ I can warn users until they reach max warns, with each predefined actions such as ban, mute, kick, etc.
                  \n❍ I have a note keeping system, blacklists, and even predetermined replies on certain keywords.
                  \n❍ I check for admins' permissions before executing any command and more stuffs
-                 \n\n_Masha's licensed under the GNU General Public License v3.0_
-                 \nHere is the [💾Repository](https://github.com/Mr-Dark-Prince/MashaRoBot).
-                 \n\nIf you have any question about Masha, let us know at @WasteBots.""",
+                 \n\n_Killua's licensed under the GNU General Public License v3.0_ .""",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
                     InlineKeyboardButton(text="Back", callback_data="masha_back")
-                 ]
+                 ]     
                 ]
             ),
         )
@@ -388,29 +383,17 @@ def Masha_about_callback(update: Update, context: CallbackContext):
         )
 
 
+
 @run_async
 def Admin_about_callback(update, context):
     query = update.callback_query
     if query.data == "adminmenu_":
         query.message.reply_text(
-            text=f"ADMIN MODULES",
+            text=f"`Not Started yet`",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
                 [
-                    [
-                        InlineKeyboardButton(
-                            text="ℹ️GROUP", callback_data="group_cmds"
-                        ),
-                        InlineKeyboardButton(
-                            text="BASIC", callback_data="basic_cmds"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            text="❔Help & Commands", callback_data="help_back"
-                        )
-                    ],
                     [InlineKeyboardButton(text="Back", callback_data="masha_back")],
                 ]
             ),
@@ -422,8 +405,8 @@ def Source_about_callback(update: Update, context: CallbackContext):
     query = update.callback_query
     if query.data == "source_":
         query.message.edit_text(
-            text=""" Hi..🤗 I'm *MASHA*
-                 \nHere is the [Source Code](https://github.com/Mr-Dark-Prince/MashaRoBot) .""",
+            text=""" Hi..🤗 I'm *KILLUA*
+                 \n``Uploading soon`` .""",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
